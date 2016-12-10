@@ -3,6 +3,7 @@
 
 use App\MessageAnalyzer;
 use App\PinCodeCalculator;
+use App\RoomEncrypter;
 use App\TriangleChecker;
 
 require '../vendor/autoload.php';
@@ -26,6 +27,21 @@ prettyOutput("Number of valid triangles: " . $count);
 //
 $count2 = $triangleChecker->checkVertically($input);
 prettyOutput("Number of vertical valid triangles: " . $count2);
+
+// Day 4
+$input = require "../src/Day4/input.php";
+$roomEncrypter = new RoomEncrypter();
+$sum = $roomEncrypter->getSumOfRealRooms($input);
+prettyOutput("Sum of real rooms: " . $sum);
+// Day 4 / 2
+$roomCodes = explode("\n", $input);
+$roomCodes = array_map(function ($code) {
+    return trim($code);
+}, $roomCodes);
+
+foreach ($roomCodes as $roomCode) {
+    prettyOutput($roomEncrypter->decodeRoomName($roomCode));
+}
 
 // Day 6
 $input = require "../src/Day6/input.php";
