@@ -1,6 +1,7 @@
 <?php
 
 
+use App\DoorPassword;
 use App\MessageAnalyzer;
 use App\PinCodeCalculator;
 use App\RoomEncrypter;
@@ -39,9 +40,17 @@ $roomCodes = array_map(function ($code) {
     return trim($code);
 }, $roomCodes);
 
-foreach ($roomCodes as $roomCode) {
-    prettyOutput($roomEncrypter->decodeRoomName($roomCode));
-}
+//foreach ($roomCodes as $roomCode) {
+//    prettyOutput($roomEncrypter->decodeRoomName($roomCode));
+//}
+
+// Day 5
+$doorPassword = new DoorPassword();
+$password = $doorPassword->generate("ojvtpuvg");
+prettyOutput("Door password: " . $password);
+
+$password = $doorPassword->generateComplexCode("ojvtpuvg");
+prettyOutput("Door password 2: " . $password);
 
 // Day 6
 $input = require "../src/Day6/input.php";
