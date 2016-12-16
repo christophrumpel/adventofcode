@@ -2,6 +2,7 @@
 
 
 use App\DoorPassword;
+use App\IpTester;
 use App\MessageAnalyzer;
 use App\PinCodeCalculator;
 use App\RoomEncrypter;
@@ -45,12 +46,12 @@ $roomCodes = array_map(function ($code) {
 //}
 
 // Day 5
-$doorPassword = new DoorPassword();
-$password = $doorPassword->generate("ojvtpuvg");
-prettyOutput("Door password: " . $password);
-
-$password = $doorPassword->generateComplexCode("ojvtpuvg");
-prettyOutput("Door password 2: " . $password);
+//$doorPassword = new DoorPassword();
+//$password = $doorPassword->generate("ojvtpuvg");
+//prettyOutput("Door password: " . $password);
+//
+//$password = $doorPassword->generateComplexCode("ojvtpuvg");
+//prettyOutput("Door password 2: " . $password);
 
 // Day 6
 $input = require "../src/Day6/input.php";
@@ -58,5 +59,15 @@ $messageAnalyzer = new MessageAnalyzer();
 $message = $messageAnalyzer->analyze($input);
 $message2 = $messageAnalyzer->analyze($input, "least");
 prettyOutput("The message is: " . $message . " and with least common chars: " . $message2);
+
+// Day 7
+$input = require "../src/Day7/input.php";
+$ipTester = new IpTester();
+$validIps = $ipTester->howManyIpsSupport("Tsl", $input);
+prettyOutput($validIps . " ips are TSL supported.");
+
+$sslIps = $ipTester->howManyIpsSupport("Ssl", $input);
+prettyOutput($sslIps . " ips are SSL supported.");
+
 
 
