@@ -1,6 +1,7 @@
 <?php
 
 
+use App\DisplayHandler;
 use App\DoorPassword;
 use App\IpTester;
 use App\MessageAnalyzer;
@@ -69,5 +70,11 @@ prettyOutput($validIps . " ips are TSL supported.");
 $sslIps = $ipTester->howManyIpsSupport("Ssl", $input);
 prettyOutput($sslIps . " ips are SSL supported.");
 
+// Day 8
+$input = require "../src/Day8/input.php";
+$displayHandler = new DisplayHandler();
+$displayHandler->setDisplay(50, 6)->load($input)->run();
+prettyOutput($displayHandler->litPixelsCount() . ' pixels lit!');
 
+var_dump($displayHandler->show());
 

@@ -54,9 +54,13 @@ class DisplayHandlerTest extends TestCase
         $displayHandler = new DisplayHandler();
         $display = $displayHandler->setDisplay(50, 6)->load($instructions)->run();
 
-        $this->assertEquals(1, $display->litPixelsCount());
-
         $this->assertEquals(34, $display->litPixelsCount());
+
+        $instructions = "rect 12x2";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(50, 2)->load($instructions)->run();
+
+        $this->assertEquals(24, $display->litPixelsCount());
     }
     
     /**
@@ -69,6 +73,102 @@ class DisplayHandlerTest extends TestCase
         $displayHandler = new DisplayHandler();
         $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
         $output = "\n# _ # _ _ _ _ \n# # # _ _ _ _ \n_ # _ _ _ _ _ \n";
-//        $this->assertEquals($output, $display->show());
+        $this->assertEquals($output, $display->show());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_rotate_column_multiple_times()
+    {
+        $instructions = "rect 3x2
+        rotate column x=1 by 2";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n# # # _ _ _ _ \n# _ # _ _ _ _ \n_ # _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+
+        $instructions = "rect 3x2
+        rotate column x=1 by 3";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n# # # _ _ _ _ \n# # # _ _ _ _ \n_ _ _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+
+        $instructions = "rect 3x2
+        rotate column x=0 by 4";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n_ # # _ _ _ _ \n# # # _ _ _ _ \n# _ _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_rotate_a_row()
+    {
+        $instructions = "rect 3x2
+        rotate row y=0 by 4";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n_ _ _ _ # # # \n# # # _ _ _ _ \n_ _ _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_rotate_a_row_multiple_rows()
+    {
+        $instructions = "rect 3x2
+        rotate row y=0 by 4
+        rotate row y=0 by 1";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n# _ _ _ _ # # \n# # # _ _ _ _ \n_ _ _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_rotate_a_column_and_row()
+    {
+        $instructions = "rect 3x2
+        rotate column x=1 by 1
+        rotate row y=0 by 4";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n_ _ _ _ # _ # \n# # # _ _ _ _ \n_ # _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+        $this->assertEquals(6, $displayHandler->litPixelsCount());
+
+        $instructions = "rect 3x2
+        rotate column x=1 by 1
+        rotate row y=0 by 4
+        rotate column x=1 by 1";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n_ # _ _ # _ # \n# _ # _ _ _ _ \n_ # _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+        $this->assertEquals(6, $displayHandler->litPixelsCount());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_count_pixels_lit_with_multiple_rect_instructions()
+    {
+        $instructions = "rect 3x2
+        rotate column x=1 by 1
+        rotate row y=0 by 4
+        rect 3x2";
+        $displayHandler = new DisplayHandler();
+        $display = $displayHandler->setDisplay(7, 3)->load($instructions)->run();
+        $output = "\n# # # _ # _ # \n# # # _ _ _ _ \n_ # _ _ _ _ _ \n";
+        $this->assertEquals($output, $display->show());
+        $this->assertEquals(9, $displayHandler->litPixelsCount());
+
     }
 }
