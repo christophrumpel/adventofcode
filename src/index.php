@@ -3,6 +3,7 @@
 
 use App\DisplayHandler;
 use App\DoorPassword;
+use App\FileCompressor;
 use App\IpTester;
 use App\MessageAnalyzer;
 use App\PinCodeCalculator;
@@ -78,3 +79,11 @@ prettyOutput($displayHandler->litPixelsCount() . ' pixels lit!');
 
 var_dump($displayHandler->show());
 
+// Day 9
+$input = require "../src/Day9/input.php";
+$fileCompressor = new FileCompressor();
+$length = $fileCompressor->getDecompressedInputLength($input);
+prettyOutput('The length of the decompressed file is: ' . $length);
+
+$length2 = $fileCompressor->getInputLength($input, true);
+prettyOutput('The length of the decompressed (v2) file is: ' . $length2);
