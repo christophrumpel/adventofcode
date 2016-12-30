@@ -1,6 +1,7 @@
 <?php
 
 
+use App\BotController;
 use App\DisplayHandler;
 use App\DoorPassword;
 use App\FileCompressor;
@@ -82,8 +83,16 @@ var_dump($displayHandler->show());
 // Day 9
 $input = require "../src/Day9/input.php";
 $fileCompressor = new FileCompressor();
-$length = $fileCompressor->getDecompressedInputLength($input);
+$length = $fileCompressor->getInputLength($input);
 prettyOutput('The length of the decompressed file is: ' . $length);
 
 $length2 = $fileCompressor->getInputLength($input, true);
 prettyOutput('The length of the decompressed (v2) file is: ' . $length2);
+
+// Day 10
+$input = require "../src/Day10/input.php";
+$botController = new BotController();
+$bot = $botController->loadInstructions($input)->getResponsibleBot(61, 17);
+$multipliedOutputs = $botController->multiplyOutputs([0, 1, 2]);
+prettyOutput('Bot number' . $bot . ' is responsible for the chips 61 and 17');
+prettyOutput('If you multiply outpt values 0, 1 and 2 you get ' . $multipliedOutputs);
